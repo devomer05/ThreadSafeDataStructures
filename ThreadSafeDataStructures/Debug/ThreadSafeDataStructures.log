@@ -1,4 +1,0 @@
-﻿  main.cpp
-d:\belgeler\github\threadsafedatastructures\threadsafedatastructures\threadsafedatastructures\main.cpp(91): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-d:\belgeler\github\threadsafedatastructures\threadsafedatastructures\threadsafedatastructures\main.cpp(107): warning C4101: 'val': unreferenced local variable
-  ThreadSafeDataStructures.vcxproj -> D:\Belgeler\GitHub\ThreadSafeDataStructures\ThreadSafeDataStructures\Debug\ThreadSafeDataStructures.exe

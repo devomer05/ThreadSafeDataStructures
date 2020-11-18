@@ -1,3 +1,0 @@
-﻿  main.cpp
-d:\belgeler\github\threadsafedatastructures\threadsafedatastructures\threadsafedatastructures\main.cpp(117): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  ThreadSafeDataStructures.vcxproj -> D:\Belgeler\GitHub\ThreadSafeDataStructures\ThreadSafeDataStructures\x64\Debug\ThreadSafeDataStructures.exe
