@@ -3,7 +3,7 @@
 
 #include <mutex>
 
-constexpr int max_size = 32;
+constexpr int max_size = 16;
 constexpr int min_size = 4;
 
 template <typename T>

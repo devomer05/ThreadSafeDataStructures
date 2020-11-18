@@ -114,7 +114,7 @@ void Tracker(ThreadSafeArray<int>& tss)
 int main()
 {
 	srand(time(NULL));
-	ThreadSafeQueue<int> s(10);
+	/*ThreadSafeQueue<int> s(10);
 	std::thread t1(Supplier, std::ref(s));// std::thread can not understand if 's' is a reference or value so we implictly show it is a ref. 
 	std::thread t2(Supplier, std::ref(s));
 	std::thread t3(Supplier, std::ref(s));
@@ -129,25 +129,30 @@ int main()
 	t5.join();
 	t6.join();
 	s.Print();
-	/*
+	*/
 	int val;
-	ThreadSafeQueue<int> tsq(4);
-	for (int i = 0; i < 6; i++)
+	ThreadSafeQueue<int> tsq(5);
+	for (int i = 0; i < 5; i++)
 	{
 		tsq.Push((rand() % 100) + 1);
 		tsq.Print();
 	}
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		tsq.Pop(val);
 		tsq.Print();
 	}
-	for (int i = 0; i < 18; i++)
+	for (int i = 0; i < 14; i++)
 	{
 		tsq.Push((rand() % 100) + 1);
 		tsq.Print();
 	}
-	tsq.Print();*/
+	for (int i = 0; i < 9; i++)
+	{
+		tsq.Pop(val);
+		tsq.Print();
+	}
+	tsq.Print();
 	system("pause");
 	return 0;
 }

@@ -53,13 +53,13 @@ private:
 		}
 		
 		std::cout << "  ( Size: " << _Size() << " Capacity: " << this->capacity << " Front: " << front << " Rear: " << rear << " )";
-		std::cout << std::endl;
-		/*std::cout << " Array :";
-		for (int i = 0; i < capacity; i++)
+		//std::cout << std::endl;
+		std::cout << "\tArray :";
+		for (int i = 0; i < this->capacity; i++)
 		{
-			std::cout << (i == front ? " <<< ": "") << arr[i] << (i == rear ? " >>> " : "") << " ";
+			std::cout << (i == front ? " <<< ": "") << this->arr[i] << (i == rear ? " >>> " : "") << " ";
 		}
-		std::cout << std::endl;*/
+		std::cout << std::endl;
 		std::cout << std::endl;
 	}
 public:
@@ -86,19 +86,21 @@ public:
 			int newCapacity = std::min(this->capacity * 3 / 2 + 1, max_size);
 			if (newCapacity > this->capacity)
 			{
+				std::cout << "Resizing..." << std::endl << "Old content";
+				_Print();
 				T* newArr = new T[newCapacity];
 				memset(newArr, -1, newCapacity * sizeof(T));
 				int dif = newCapacity - this->capacity;
-				memcpy(newArr + front + dif, this->arr + front, (this->capacity - front) * sizeof(T));
-				memcpy(newArr , this->arr, (front) * sizeof(T));
+				memcpy(newArr , this->arr + front, (this->capacity - front) * sizeof(T));
+				memcpy(newArr + (this->capacity - front), this->arr, (front) * sizeof(T));
 
 				delete[] this->arr;
 				this->capacity = newCapacity;
 				this->arr = newArr;
-				rear = (front - 1);
-				if (rear < 0)
-					rear += newCapacity;
-				front += dif;
+				front = 0;
+				rear = count - 1;
+				std::cout << "New Content";
+				_Print();
 			}
 			else
 			{
