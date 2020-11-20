@@ -11,7 +11,7 @@
 #define WAIT_OTHER_THREAD_DURATION 100 // Thread waits for other threat.
 #define LOG_DURATION 1000 // Log time interval
 #define WAIT_LONG 2000 // Thread waits like it has stopped
-#define RUN_TIME_INTERVAL 15 // Thread waits like it has stopped
+#define RUN_TIME_INTERVAL 60 // Thread stops after this duration
 
 
 void Supplier(ThreadSafeArray<int>& tss)
@@ -114,6 +114,7 @@ void Tracker(ThreadSafeArray<int>& tss)
 int main()
 {
 	srand(time(NULL));
+	
 	/*ThreadSafeQueue<int> s(10);
 	std::thread t1(Supplier, std::ref(s));// std::thread can not understand if 's' is a reference or value so we implictly show it is a ref. 
 	std::thread t2(Supplier, std::ref(s));
@@ -130,29 +131,8 @@ int main()
 	t6.join();
 	s.Print();
 	*/
-	int val;
 	ThreadSafeQueue<int> tsq(5);
-	for (int i = 0; i < 5; i++)
-	{
-		tsq.Push((rand() % 100) + 1);
-		tsq.Print();
-	}
-	for (int i = 0; i < 5; i++)
-	{
-		tsq.Pop(val);
-		tsq.Print();
-	}
-	for (int i = 0; i < 14; i++)
-	{
-		tsq.Push((rand() % 100) + 1);
-		tsq.Print();
-	}
-	for (int i = 0; i < 9; i++)
-	{
-		tsq.Pop(val);
-		tsq.Print();
-	}
-	tsq.Print();
+	ThreadSafeStack<int> tss(5);
 	system("pause");
 	return 0;
 }

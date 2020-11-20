@@ -72,7 +72,9 @@ public:
 				{
 					this->capacity = newCapacity;
 					T* newArr = new T[this->capacity];
-					memcpy(newArr, this->arr, _Size() * sizeof(T));
+
+
+
 					delete[] this->arr;
 					this->arr = newArr;
 				}
@@ -107,26 +109,20 @@ public:
 		if (_Size() == 0)
 			std::cout << "!!! Stack is empty !!!";
 		else
-			std::cout << "Content: ";
-		for (int i = 0; i < _Size(); i++)
 		{
-			std::cout << this->arr[i] << " ";
+			std::cout << "Content: ";
+			for (int i = 0; i < _Size(); i++)
+			{
+				std::cout << this->arr[i] << " ";
+			}
 		}
 		std::cout << "  ( Size: " << _Size() << " Capacity: " << this->capacity << " )";
-
 		std::cout << std::endl;
 	}
 
-	ThreadSafeStack(int cap)
+	ThreadSafeStack(int cap) : ThreadSafeArray<T>(cap)
 	{
-		this->capacity = std::max( min_size, std::min(cap, max_size));
-		this->arr = new T[this->capacity];
 		top = -1;
-	}
-
-	~ThreadSafeStack()
-	{
-		delete[] this->arr;
 	}
 };
 

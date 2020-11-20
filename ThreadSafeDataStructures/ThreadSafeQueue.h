@@ -30,52 +30,47 @@ private:
 		std::cout << std::endl;
 
 		if (_Size() == 0)
-			std::cout << "!!! Queue is empty !!!" << std::endl;
+			std::cout << "!!! Queue is empty !!!";
 		else
+		{
 			std::cout << "Content: ";
-		if (rear >= front)
-		{
-			for (int i = front; i <= rear; i++)
+			if (rear >= front)
 			{
-				std::cout << this->arr[i] << " ";
+				for (int i = front; i <= rear; i++)
+				{
+					std::cout << this->arr[i] << " ";
+				}
+			}
+			else
+			{
+				for (int i = front; i < this->capacity; i++)
+				{
+					std::cout << this->arr[i] << " ";
+				}
+				for (int i = 0; i <= rear; i++)
+				{
+					std::cout << this->arr[i] << " ";
+				}
 			}
 		}
-		else
-		{
-			for (int i = front; i < this->capacity; i++)
-			{
-				std::cout << this->arr[i] << " ";
-			}
-			for (int i = 0; i <= rear; i++)
-			{
-				std::cout << this->arr[i] << " ";
-			}
-		}
-		
+
 		std::cout << "  ( Size: " << _Size() << " Capacity: " << this->capacity << " Front: " << front << " Rear: " << rear << " )";
 		//std::cout << std::endl;
-		std::cout << "\tArray :";
+		/*std::cout << "\tArray :";
 		for (int i = 0; i < this->capacity; i++)
 		{
 			std::cout << (i == front ? " <<< ": "") << this->arr[i] << (i == rear ? " >>> " : "") << " ";
 		}
-		std::cout << std::endl;
+	std::cout << std::endl;*/
+			
 		std::cout << std::endl;
 	}
 public:
-	ThreadSafeQueue(int cap)
+	ThreadSafeQueue(int cap): ThreadSafeArray<T>(cap)
 	{
-		this->capacity = std::max(min_size, std::min(cap, max_size));
-		this->arr = new T[this->capacity];
-		memset(this->arr, -1, this->capacity * sizeof(T));
 		count = 0;
 		rear = -1;
 		front = 0;
-	}
-
-	~ThreadSafeQueue()
-	{
-		delete[] this->arr;
 	}
 
 	bool Push(const T& val)
@@ -86,21 +81,16 @@ public:
 			int newCapacity = std::min(this->capacity * 3 / 2 + 1, max_size);
 			if (newCapacity > this->capacity)
 			{
-				std::cout << "Resizing..." << std::endl << "Old content";
-				_Print();
 				T* newArr = new T[newCapacity];
 				memset(newArr, -1, newCapacity * sizeof(T));
-				int dif = newCapacity - this->capacity;
+				
 				memcpy(newArr , this->arr + front, (this->capacity - front) * sizeof(T));
 				memcpy(newArr + (this->capacity - front), this->arr, (front) * sizeof(T));
-
 				delete[] this->arr;
 				this->capacity = newCapacity;
 				this->arr = newArr;
 				front = 0;
 				rear = count - 1;
-				std::cout << "New Content";
-				_Print();
 			}
 			else
 			{
@@ -127,11 +117,38 @@ public:
 			front = (front + 1) % this->capacity;
 			count--;
 
-			if (count < (this->capacity / 3) - 1)
+			if (count == 0)// Reset queue
+			{
+				delete[] this->arr;
+				this->capacity = min_size;
+				this->arr = new T[min_size];
+				rear = -1;
+				front = 0;
+			}
+
+			if ( count > 0 && count < (this->capacity / 3) - 1)
 			{
 				int newCapacity = std::max(this->capacity / 2, min_size);
 				if (newCapacity < this->capacity)
 				{
+					T* newArr = new T[newCapacity];
+					memset(newArr, -1, newCapacity * sizeof(T));
+
+					if (rear >= front)
+					{
+						memcpy(newArr, this->arr + front, count * sizeof(T));
+					}
+					else
+					{
+						memcpy(newArr, this->arr + front, (this->capacity - front) * sizeof(T));
+						memcpy(newArr + (this->capacity - front), this->arr, (rear+1) * sizeof(T));
+					}
+
+					delete[] this->arr;
+					this->capacity = newCapacity;
+					this->arr = newArr;
+					front = 0;
+					rear = count - 1;
 
 				}
 			}
