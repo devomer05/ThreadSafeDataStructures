@@ -3,7 +3,7 @@
 #include <ctime>
 #include <thread>
 #include <chrono>
-#include "ThreadSafeArray.h"
+
 #include "ThreadSafeStack.h"
 #include "ThreadSafeQueue.h"
 
@@ -11,7 +11,7 @@
 #define WAIT_OTHER_THREAD_DURATION 100 // Thread waits for other threat.
 #define LOG_DURATION 1000 // Log time interval
 #define WAIT_LONG 2000 // Thread waits like it has stopped
-#define RUN_TIME_INTERVAL 60 // Thread stops after this duration
+#define RUN_TIME_INTERVAL 60*60 // Thread stops after this duration
 
 
 void Supplier(ThreadSafeArray<int>& tss)
@@ -42,16 +42,16 @@ void Supplier(ThreadSafeArray<int>& tss)
 		int val = ( rand() % 100) + 1;
 		if (!tss.Push(val))
 		{
-			if (!loggedBefore)
+			/*if (!loggedBefore)
 			{
 				loggedBefore = true;
-				//std::cout << "Stack is full, waiting for consumer thread" << std::endl;
-			}
+				std::cout << "Stack is full, waiting for consumer thread" << std::endl;
+			}*/
 			std::this_thread::sleep_for(std::chrono::milliseconds(WAIT_OTHER_THREAD_DURATION));
 		}
 		else
 		{
-			loggedBefore = false;
+			//loggedBefore = false;
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds( ( ( WAIT_DURATION ) / 2 ))); // make supplier a bit faster ( wait less )
 	}
@@ -77,16 +77,16 @@ void Consumer(ThreadSafeArray<int>& tss)
 		int val;
 		if (!tss.Pop(val))
 		{
-			if (!loggedBefore)
+			/*if (!loggedBefore)
 			{
 				loggedBefore = true;
-				//std::cout << "Stack is empty, waiting for supplier thread" << std::endl;
-			}
+				std::cout << "Stack is empty, waiting for supplier thread" << std::endl;
+			}*/
 			std::this_thread::sleep_for(std::chrono::milliseconds(WAIT_OTHER_THREAD_DURATION));
 		}
 		else
 		{
-			loggedBefore = false;
+			//loggedBefore = false;
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds( (WAIT_DURATION ) ) );
 	}
@@ -115,7 +115,7 @@ int main()
 {
 	srand(time(NULL));
 	
-	/*ThreadSafeQueue<int> s(10);
+	ThreadSafeQueue<int> s(10);
 	std::thread t1(Supplier, std::ref(s));// std::thread can not understand if 's' is a reference or value so we implictly show it is a ref. 
 	std::thread t2(Supplier, std::ref(s));
 	std::thread t3(Supplier, std::ref(s));
@@ -130,9 +130,7 @@ int main()
 	t5.join();
 	t6.join();
 	s.Print();
-	*/
-	ThreadSafeQueue<int> tsq(5);
-	ThreadSafeStack<int> tss(5);
+	
 	system("pause");
 	return 0;
 }
